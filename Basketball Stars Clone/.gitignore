@@ -31,6 +31,13 @@
 # Jetbrains Rider personal-layer settings
 *.DotSettings.user
 
+# Ignore all of .idea
+.idea/
+
+# But include these files if needed:
+!.idea/misc.xml
+!.idea/modules.xml
+
 # Visual Studio cache directory
 .vs/
 
