@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00cad0eef7a71246b25eaeac7f3b1ab, type: 3}
+  m_Name: RBWBall
+  m_EditorClassIdentifier: 
+  icon: {fileID: -1316989292, guid: 2f976b4c5edcc7546a1aa7e675a7e743, type: 3}
+  modelPrefab: {fileID: 6536287185626285137, guid: 993caf427bad3c04dad8a1628b1abdf7,
+    type: 3}
+  displayName: Coloured
+  skinType: 2
