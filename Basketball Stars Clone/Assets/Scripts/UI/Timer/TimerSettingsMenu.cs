@@ -1,6 +1,8 @@
+using Interfaces;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+using Utils;
 
 namespace UI.Timer
 {
@@ -13,70 +15,77 @@ namespace UI.Timer
         [SerializeField] private Text timerText;
         [SerializeField] private Button increaseButton;
         [SerializeField] private Button decreaseButton;
+        [SerializeField] private Button confirmButton;
 
         [Header("Time options")]
-        [Tooltip("Minimum allowed time (in seconds)")] 
-        [SerializeField] private int minTime = 30;
+        [SerializeField, Tooltip("Minimum allowed time (in seconds)")] private int minTime = 30;
+        [SerializeField, Tooltip("Maximum allowed time (in seconds)")] private int maxTime = 120;
+        [SerializeField, Tooltip("Step to increase or decrease time (in seconds)")] private int timeStep = 10;
 
-        [Tooltip("Maximum allowed time (in seconds)")] 
-        [SerializeField] private int maxTime = 120;
+        private TimerUIModel _timer;
+        private IGameDataService _dataService;
+        private ISoundService _soundService;
 
-        [Tooltip("Step to increase or decrease time (in seconds)")] 
-        [SerializeField] private int timeStep = 10;
-
-        // current and displayed time in seconds
-        private int _currentTime = 60;
-
-        private void Start()
+        private void Awake()
         {
             #if UNITY_EDITOR
             Assert.IsNotNull(timerText, $"{nameof(Text)} reference is missing on '{gameObject.name}'");
             Assert.IsNotNull(increaseButton, $"{nameof(Button)} reference is missing on '{gameObject.name}'");
             Assert.IsNotNull(decreaseButton, $"{nameof(Button)} reference is missing on '{gameObject.name}'");
+            Assert.IsNotNull(confirmButton, $"{nameof(Button)} reference is missing on '{gameObject.name}'");
             #endif
             
-            UpdateTimerText();
-            UpdateButtonStates();
-
-            increaseButton.onClick.AddListener(IncreaseTime);
-            decreaseButton.onClick.AddListener(DecreaseTime);
+            _dataService = ServiceLocator.GameDataService;
+            _soundService = ServiceLocator.SoundService;
+            
+            int defaultTime = _dataService != null ? (int)_dataService.GameTimerDuration : maxTime;
+            _timer = new TimerUIModel(defaultTime, minTime, maxTime, timeStep);
+            
+            _timer.OnValueChanged += OnTimerValueChanged;
+            increaseButton.onClick.AddListener(_timer.Increase);
+            decreaseButton.onClick.AddListener(_timer.Decrease);
+            confirmButton.onClick.AddListener(OnConfirm);
         }
 
-        private void IncreaseTime()
+        private void Start()
         {
-            if (_currentTime + timeStep > maxTime) return;
-
-            _currentTime += timeStep;
-            UpdateTimerText();
-            UpdateButtonStates();
+            OnTimerValueChanged(_timer.Current);
         }
 
-        private void DecreaseTime()
+        private void OnTimerValueChanged(int newSeconds)
         {
-            if (_currentTime - timeStep < minTime) return;
-
-            _currentTime -= timeStep;
-            UpdateTimerText();
-            UpdateButtonStates();
+            int minutes = newSeconds / 60;
+            int seconds = newSeconds % 60;
+            timerText.text = $"{minutes}:{seconds:00}";
+            
+            increaseButton.interactable = newSeconds + timeStep <= maxTime;
+            decreaseButton.interactable = newSeconds - timeStep >= minTime;
+            
+            _soundService.PlaySound(SoundType.UI_SELECT);
         }
 
-        private void UpdateTimerText()
+        private void OnConfirm()
         {
-            int minutes = _currentTime / 60;
-            int seconds = _currentTime % 60;
-            timerText.text = $"{minutes} : {(seconds < 10 ? "0" : "")}{seconds}";
-        }
-
-        private void UpdateButtonStates()
-        {
-            increaseButton.interactable = _currentTime + timeStep <= maxTime;
-            decreaseButton.interactable = _currentTime - timeStep >= minTime;
+            if (_dataService == null)
+            {
+                Debug.LogError("PlayerDataService not available");
+                return;
+            }
+            
+            _dataService.SetTimerDuration(_timer.Current);
+            _soundService.PlaySound(SoundType.UI_CONFIRM);
         }
 
         private void OnDestroy()
         {
-            increaseButton.onClick.RemoveListener(IncreaseTime);
-            decreaseButton.onClick.RemoveListener(DecreaseTime);
+            if (_timer != null)
+            {
+                _timer.OnValueChanged -= OnTimerValueChanged;
+                increaseButton.onClick.RemoveListener(_timer.Increase);
+                decreaseButton.onClick.RemoveListener(_timer.Decrease);
+            }
+            
+            confirmButton.onClick.RemoveListener(OnConfirm);
         }
     }
 }

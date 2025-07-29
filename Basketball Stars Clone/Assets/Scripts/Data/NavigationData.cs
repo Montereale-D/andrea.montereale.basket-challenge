@@ -1,4 +1,4 @@
-﻿using UI.Enums;
+﻿using Enums;
 
 namespace Data
 {

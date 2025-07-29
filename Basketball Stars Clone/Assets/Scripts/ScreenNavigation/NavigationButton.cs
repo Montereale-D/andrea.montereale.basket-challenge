@@ -1,4 +1,5 @@
-﻿using UI.Enums;
+﻿using Enums;
+using Interfaces;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,7 +13,7 @@ namespace ScreenNavigation
     public class NavigationButton : UIScreenButton
     {
         [SerializeField] private UIScreenID screenID;
-
+        
         protected override void OnClick()
         {
             #if UNITY_EDITOR
@@ -20,6 +21,7 @@ namespace ScreenNavigation
             #endif
             
             UIScreenManager.Instance.NavigateToScreen(screenID);
+            ServiceLocator.SoundService.PlaySound(SoundType.UI_CONFIRM);
         }
     }
 }

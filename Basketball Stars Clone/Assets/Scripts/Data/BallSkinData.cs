@@ -10,6 +10,8 @@ namespace Data
     [CreateAssetMenu(fileName = "BallSkin", menuName = "Skins/Ball Skin")]
     public class BallSkinData : SkinData
     {
-        public BallSkinType skinType;
+        [SerializeField] private  BallSkinType skinType;
+        
+        public BallSkinType SkinType => skinType;
     }
 }

@@ -20,11 +20,6 @@ namespace SceneNavigation
         private void Awake()
         {
             _customSceneLoader = GetComponent<CustomSceneLoader>();
-            
-            #if UNITY_EDITOR
-            Assert.IsTrue(scenesToLoadAdditive.Count > 0, $"scenesToLoadAdditive reference is missing on '{gameObject.name}'");
-            Assert.IsTrue(scenesToLoadSingle.Count > 0, $"scenesToLoadSingle reference is missing on '{gameObject.name}'");
-            #endif
         }
 
         private void Start()

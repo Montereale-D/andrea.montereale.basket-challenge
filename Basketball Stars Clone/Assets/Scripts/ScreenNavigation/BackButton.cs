@@ -1,4 +1,5 @@
-﻿using UnityEngine.Assertions;
+﻿using Interfaces;
+using UnityEngine.Assertions;
 
 namespace ScreenNavigation
 {
@@ -16,6 +17,7 @@ namespace ScreenNavigation
             #endif
             
             UIScreenManager.Instance.NavigateBack();
+            ServiceLocator.SoundService.PlaySound(SoundType.UI_BACK);
         }
     }
 }

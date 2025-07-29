@@ -316,7 +316,6 @@ GameObject:
   m_Component:
   - component: {fileID: 448661405}
   - component: {fileID: 448661404}
-  - component: {fileID: 448661403}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -324,14 +323,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &448661403
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448661402}
-  m_Enabled: 1
 --- !u!20 &448661404
 Camera:
   m_ObjectHideFlags: 0
@@ -699,11 +690,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64dc2b300f4449d690585de7e95e4444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenesToUnload: []
-  scenesToLoadSingle:
+  scenesToUnload:
+  - m_SceneAsset: {fileID: 102900000, guid: 39fa627ab649ef24c9681b75b948813f, type: 3}
+    m_SceneName: BootScene
+  scenesToLoadSingle: []
+  scenesToLoadAdditive:
   - m_SceneAsset: {fileID: 102900000, guid: 81911a049de005d4d8a84e32d2760a5a, type: 3}
     m_SceneName: PersistentScene
-  scenesToLoadAdditive:
   - m_SceneAsset: {fileID: 102900000, guid: c850ee8c3b14cc8459e7e186857cf567, type: 3}
     m_SceneName: MainMenuScene
 --- !u!1 &1924282630

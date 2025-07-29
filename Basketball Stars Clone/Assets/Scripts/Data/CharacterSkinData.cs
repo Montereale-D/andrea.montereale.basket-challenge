@@ -10,6 +10,8 @@ namespace Data
     [CreateAssetMenu(fileName = "CharacterSkin", menuName = "Skins/Character Skin")]
     public class CharacterSkinData : SkinData
     {
-        public CharacterSkinType skinType;
+        [SerializeField] private  CharacterSkinType skinType;
+        
+        public CharacterSkinType SkinType => skinType;
     }
 }

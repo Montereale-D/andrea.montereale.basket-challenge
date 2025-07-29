@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Data;
-using UI.Enums;
+using Enums;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;

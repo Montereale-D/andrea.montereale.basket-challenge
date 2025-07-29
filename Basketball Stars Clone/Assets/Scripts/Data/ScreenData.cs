@@ -1,5 +1,5 @@
 ﻿using System;
-using UI.Enums;
+using Enums;
 using UnityEngine;
 
 namespace Data

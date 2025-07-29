@@ -8,8 +8,12 @@ namespace Data
     /// </summary>
     public abstract class SkinData : ScriptableObject
     {
-        public Sprite icon;
-        public GameObject modelPrefab;
-        public string displayName;
+        [SerializeField] private Sprite icon;
+        [SerializeField] private GameObject modelPrefab;
+        [SerializeField] private string displayName;
+        
+        public Sprite Icon => icon;
+        public GameObject ModelPrefab => modelPrefab;
+        public string DisplayName => displayName;
     }
 }

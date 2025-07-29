@@ -51,7 +51,7 @@ namespace SceneNavigation
             
                 yield return null;
             
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
             }
         
             _fadeImage.color = endColor;
